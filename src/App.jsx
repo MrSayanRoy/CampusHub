@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AppProvider } from './context/AppContext';
+import { ToastProvider } from './components/ui/Toast';
 import viteLogo from './assets/vite.svg'
 import './App.css'
 

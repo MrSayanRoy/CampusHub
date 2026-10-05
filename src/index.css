@@ -1,111 +1,155 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    /* =========================================================================
+       CSS VARIABLES: PALETTE, SPACING, RADII, SHADOWS, EASING
+       ========================================================================= */
+    /* Minimal palette: mostly black & white with generous whitespace and one accent */
+    --color-bg: #FFFFFF;
+    --color-surface: #FAFAFA;
+    --color-surface-hover: #F5F5F5;
+    --color-text-primary: #0A0A0A;
+    --color-text-secondary: #525252;
+    --color-text-muted: #737373;
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-subtle: rgba(0, 0, 0, 0.05);
+    --color-border-hover: rgba(0, 0, 0, 0.2);
+
+    /* Single accent color: Electric Blue */
+    --color-accent: #2563EB;
+    --color-accent-hover: #1D4ED8;
+    --color-accent-subtle: #EFF6FF;
+
+    /* Radii: rounded corners 16-24px for cards/images, 9999px for pill buttons */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-card: 20px;
+    --radius-pill: 9999px;
+
+    /* Shadows: soft and minimal, no harsh heavy shadows */
+    --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lift: 0 12px 28px -4px rgba(0, 0, 0, 0.08);
+
+    /* Easing: smooth 300ms cubic-bezier(.2,.8,.2,1) */
+    --ease-lift: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  html {
+    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    scroll-behavior: smooth;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display headlines: clamp(2.5rem, 7vw, 6rem), weight 500-600, line-height ~1.05, letter-spacing -0.02em */
+  h1, h2, h3, .font-headline {
+    font-family: 'Inter', 'Manrope', sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
-body {
-  margin: 0;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFAFA;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5E5E5;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A3A3A3;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Hide scrollbar for clean carousels while keeping scrollability */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* Feature card lift: 6px lift on hover with 300ms cubic-bezier(.2,.8,.2,1) */
+.lift-card-transition {
+  transition: transform 300ms var(--ease-lift, cubic-bezier(0.2, 0.8, 0.2, 1)),
+              box-shadow 300ms var(--ease-lift, cubic-bezier(0.2, 0.8, 0.2, 1)),
+              border-color 300ms var(--ease-lift, cubic-bezier(0.2, 0.8, 0.2, 1)),
+              background-color 300ms var(--ease-lift, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.lift-card-transition:hover {
+  transform: translateY(-6px);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* Smooth motion rules: 200-300ms transitions */
+.smooth-transition {
+  transition: all 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Staggered text fade-up animation for hero */
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+.hero-fade-line-1 {
+  animation: heroFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+  opacity: 0;
+}
+.hero-fade-line-2 {
+  animation: heroFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+  opacity: 0;
+}
+.hero-fade-line-3 {
+  animation: heroFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 300ms forwards;
+  opacity: 0;
+}
+
+/* Scroll reveal utility (opacity 0 -> 1, translateY(24px) -> 0, 600-800ms) */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  .reveal-init,
+  .hero-fade-line-1,
+  .hero-fade-line-2,
+  .hero-fade-line-3 {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .lift-card-transition:hover {
+    transform: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

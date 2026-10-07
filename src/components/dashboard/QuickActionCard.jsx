@@ -48,12 +48,4 @@ export default function QuickActionCard({
         </p>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-[#E5E5E5] flex items-center justify-between text-xs font-semibold text-[#DC2626]">
-        <span className="group-hover:translate-x-0.5 transition-transform">
-          Open Action
-        </span>
-        <ArrowRight className="h-4 w-4 text-[#DC2626] group-hover:translate-x-1 transition-transform" />
-      </div>
-    </button>
-  );
-}
+

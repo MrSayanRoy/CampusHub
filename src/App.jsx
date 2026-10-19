@@ -6,119 +6,94 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import PublicAuthRoute from './components/layout/PublicAuthRoute';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Login from './pages/Login';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import FeedPage from './pages/FeedPage';
+import AcademicsPage from './pages/AcademicsPage';
+import ProjectsPage from './pages/ProjectsPage';
+import EventsPage from './pages/EventsPage';
+import CampusMapPage from './pages/CampusMapPage';
+import ReportIssuePage from './pages/ReportIssuePage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
+export default function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <ToastProvider>
+        <AppProvider>
+          <Routes>
+            {/* Direct Login Page at Root (Student Portal) */}
+            <Route path="/" element={<Login initialRole="student" />} />
+            <Route path="/landing" element={<Navigate to="/" replace />} />
 
-      <div className="ticks"></div>
+            {/* Public Auth Routes */}
+            <Route element={<PublicAuthRoute />}>
+              <Route path="/login" element={<Login initialRole="student" />} />
+              <Route path="/login/student" element={<Login initialRole="student" />} />
+              <Route path="/login/faculty" element={<Login initialRole="faculty" />} />
+              <Route path="/faculty-login" element={<Login initialRole="faculty" />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            {/* Authenticated Student Portal & Modules under /app/* */}
+            <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/app/dashboard" replace />} />
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="feed" element={<FeedPage />} />
+              <Route path="academics" element={<AcademicsPage />} />
+              <Route path="academics/attendance" element={<AcademicsPage defaultTab="attendance" />} />
+              <Route path="academics/fees" element={<AcademicsPage defaultTab="fees" />} />
+              <Route path="fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
+              <Route path="payments" element={<Navigate to="/app/academics?tab=fees" replace />} />
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="events" element={<EventsPage />} />
+              <Route path="map" element={<CampusMapPage />} />
+              <Route path="report" element={<ReportIssuePage />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+            {/* Legacy / Direct URL Redirects to standardized /app/* paths */}
+            <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
+            <Route path="/feed" element={<Navigate to="/app/feed" replace />} />
+            <Route path="/notices" element={<Navigate to="/app/feed" replace />} />
+            <Route path="/academics" element={<Navigate to="/app/academics" replace />} />
+            <Route path="/academics/attendance" element={<Navigate to="/app/academics/attendance" replace />} />
+            <Route path="/academics/fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
+            <Route path="/attendance" element={<Navigate to="/app/academics/attendance" replace />} />
+            <Route path="/fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
+            <Route path="/payments" element={<Navigate to="/app/academics?tab=fees" replace />} />
+            <Route path="/subjects" element={<Navigate to="/app/academics" replace />} />
+            <Route path="/profile" element={<Navigate to="/app/profile" replace />} />
+            <Route path="/settings" element={<Navigate to="/app/settings" replace />} />
+            <Route path="/settings/connected-accounts" element={<Navigate to="/app/settings?section=connected-accounts" replace />} />
+            <Route path="/connected-accounts" element={<Navigate to="/app/settings?section=connected-accounts" replace />} />
+            <Route path="/account/profile" element={<Navigate to="/app/profile" replace />} />
+            <Route path="/account/settings" element={<Navigate to="/app/settings" replace />} />
+            <Route path="/community/feed" element={<Navigate to="/app/feed" replace />} />
+            <Route path="/community/academics" element={<Navigate to="/app/academics" replace />} />
+            <Route path="/community/projects" element={<Navigate to="/app/projects" replace />} />
+            <Route path="/community/events" element={<Navigate to="/app/events" replace />} />
+            <Route path="/campus/map" element={<Navigate to="/app/map" replace />} />
+            <Route path="/campus/report" element={<Navigate to="/app/report" replace />} />
+
+            {/* Global 404 Fallback */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </AppProvider>
+      </ToastProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App

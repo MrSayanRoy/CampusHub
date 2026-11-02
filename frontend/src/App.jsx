@@ -17,6 +17,10 @@ import CampusMapPage from './pages/CampusMapPage';
 import ReportIssuePage from './pages/ReportIssuePage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
+import CoursesPage from './pages/CoursesPage';
+import StudentsManagementPage from './pages/StudentsManagementPage';
+import StudyMaterialsPage from './pages/StudyMaterialsPage';
+import AnnouncementsPage from './pages/AnnouncementsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -52,11 +56,24 @@ export default function App() {
               <Route path="feed" element={<FeedPage />} />
               <Route path="academics" element={<AcademicsPage />} />
               <Route path="academics/attendance" element={<AcademicsPage defaultTab="attendance" />} />
+              <Route path="academics/assignments" element={<AcademicsPage defaultTab="assignments" />} />
+              <Route path="academics/timetable" element={<AcademicsPage defaultTab="timetable" />} />
               <Route path="academics/fees" element={<AcademicsPage defaultTab="fees" />} />
+              <Route path="academics/exams" element={<AcademicsPage defaultTab="exams" />} />
+              <Route path="academics/results" element={<AcademicsPage defaultTab="results" />} />
+              <Route path="assignments" element={<Navigate to="/app/academics?tab=assignments" replace />} />
+              <Route path="timetable" element={<Navigate to="/app/academics?tab=timetable" replace />} />
+              <Route path="schedule" element={<Navigate to="/app/academics?tab=timetable" replace />} />
               <Route path="fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
               <Route path="payments" element={<Navigate to="/app/academics?tab=fees" replace />} />
+              <Route path="exams" element={<Navigate to="/app/academics?tab=exams" replace />} />
+              <Route path="results" element={<Navigate to="/app/academics?tab=results" replace />} />
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="events" element={<EventsPage />} />
+              <Route path="courses" element={<CoursesPage />} />
+              <Route path="students" element={<StudentsManagementPage />} />
+              <Route path="materials" element={<StudyMaterialsPage />} />
+              <Route path="announcements" element={<AnnouncementsPage />} />
               <Route path="map" element={<CampusMapPage />} />
               <Route path="report" element={<ReportIssuePage />} />
               <Route path="profile" element={<ProfilePage />} />
@@ -66,14 +83,28 @@ export default function App() {
 
             {/* Legacy / Direct URL Redirects to standardized /app/* paths */}
             <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
+            <Route path="/courses" element={<Navigate to="/app/courses" replace />} />
+            <Route path="/students" element={<Navigate to="/app/students" replace />} />
+            <Route path="/materials" element={<Navigate to="/app/materials" replace />} />
+            <Route path="/announcements" element={<Navigate to="/app/announcements" replace />} />
             <Route path="/feed" element={<Navigate to="/app/feed" replace />} />
             <Route path="/notices" element={<Navigate to="/app/feed" replace />} />
             <Route path="/academics" element={<Navigate to="/app/academics" replace />} />
             <Route path="/academics/attendance" element={<Navigate to="/app/academics/attendance" replace />} />
+            <Route path="/academics/assignments" element={<Navigate to="/app/academics?tab=assignments" replace />} />
+            <Route path="/academics/timetable" element={<Navigate to="/app/academics?tab=timetable" replace />} />
             <Route path="/academics/fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
+            <Route path="/academics/exams" element={<Navigate to="/app/academics?tab=exams" replace />} />
+            <Route path="/academics/results" element={<Navigate to="/app/academics?tab=results" replace />} />
+            <Route path="/assignments" element={<Navigate to="/app/academics?tab=assignments" replace />} />
+            <Route path="/timetable" element={<Navigate to="/app/academics?tab=timetable" replace />} />
+            <Route path="/schedule" element={<Navigate to="/app/academics?tab=timetable" replace />} />
+            <Route path="/routine" element={<Navigate to="/app/academics?tab=timetable" replace />} />
             <Route path="/attendance" element={<Navigate to="/app/academics/attendance" replace />} />
             <Route path="/fees" element={<Navigate to="/app/academics?tab=fees" replace />} />
             <Route path="/payments" element={<Navigate to="/app/academics?tab=fees" replace />} />
+            <Route path="/exams" element={<Navigate to="/app/academics?tab=exams" replace />} />
+            <Route path="/results" element={<Navigate to="/app/academics?tab=results" replace />} />
             <Route path="/subjects" element={<Navigate to="/app/academics" replace />} />
             <Route path="/profile" element={<Navigate to="/app/profile" replace />} />
             <Route path="/settings" element={<Navigate to="/app/settings" replace />} />
